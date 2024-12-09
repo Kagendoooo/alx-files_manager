@@ -1,8 +1,8 @@
 import { promisify } from 'util';
 import { createClient } from 'redis';
 
-  // Create Redis client
-  class RedisClient {
+// Create Redis client
+class RedisClient {
   constructor() {
     this.client = createClient();
     this.isClientConnected = true;
@@ -20,19 +20,18 @@ import { createClient } from 'redis';
     return this.isClientConnected;
   }
 
-
-  //get key value
+  // get key value
   async get(key) {
     return promisify(this.client.GET).bind(this.client)(key);
   }
 
-  //set a key value with an expiractine duration
+  // set a key value with an expiractine duration
   async set(key, value, duration) {
     await promisify(this.client.SETEX)
       .bind(this.client)(key, duration, value);
   }
 
-  //delete value of a given key
+  // delete value of a given key
   async del(key) {
     await promisify(this.client.DEL).bind(this.client)(key);
   }
